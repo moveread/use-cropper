@@ -1,6 +1,6 @@
 {
     "name": "use-cropper",
-    "version": "1.1.9",
+    "version": "1.1.10",
     "description": "Simple, mobile-friendly, amimatable, customizable perspective cropper",
     "main": "dist/index.js",
     "scripts": {
@@ -11,7 +11,7 @@
     "author": "Marcel Claramunt",
     "repository": {
         "type": "git",
-        "url": "https://github.com/moveread/use-cropper"
+        "url": "git+https://github.com/moveread/use-cropper.git"
     },
     "license": "ISC",
     "devDependencies": {
