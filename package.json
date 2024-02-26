@@ -1,6 +1,6 @@
 {
     "name": "use-cropper",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "description": "Simple, mobile-friendly, amimatable, customizable perspective cropper",
     "main": "dist/index.js",
     "scripts": {
@@ -17,6 +17,7 @@
     "devDependencies": {
         "@types/fabric": "^5.3.7",
         "@types/react": "^18.2.38",
+        "framer-animations": "^1.2.4",
         "typescript": "^5.3.2"
     },
     "dependencies": {
@@ -24,6 +25,7 @@
         "use-fabric": "^1.1.0"
     },
     "peerDependencies": {
-        "fabric": "^5.3.0"
+        "fabric": "^5.3.0",
+        "framer-animations": "^1.2.4"
     }
 }
