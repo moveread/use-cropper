@@ -28,6 +28,7 @@ export const asArray = ({ tl, tr, br, bl }: Corners): Four<Vec2> => [tl, tr, br,
 export type Config = {
   pads?: Pads
   topBias?: number
+  leftBias?: number
   startCoords?: Corners
   canvasOptions?: CanvasOptions
   cornerOptions?: CornerOptions
@@ -43,7 +44,7 @@ export type Hook = {
 export type AnimationConfig = Omit<fabric.IAnimationOptions, 'onChange' | 'onComplete'>
 
 export const defaultCfg: Required<Config> = {
-  lazyCoords: false, topBias: 0.3,
+  lazyCoords: false, topBias: 0.2, leftBias: 0.2,
   startCoords: { tl: [0, 0], tr: [1, 0], br: [1, 1], bl: [0, 1] },
   pads: { l: 0.1, r: 0.1, t: 0.1, b: 0.3 },
   canvasOptions: { selection: false, hoverCursor: 'pointer', backgroundColor: 'gray' },
@@ -66,17 +67,18 @@ const defaultCorners: Four<Vec2> = [[0, 0], [1, 0], [1, 1], [0, 1]]
  * - `lazyCoords`: whether to skip computing and storing coordinates at every render
  *    - Still coords can be computed on-demand via `getCoords`
  *    - If set to false, `coords` will be always equal to `startCoords`
- * - `topBias`: since on mobile it's more difficult to drag near the top, we default to biasing corners at the top being selected
+ * - `topBias`/`leftBias`: since on mobile it's more difficult to drag near the top/left, we default to biasing corners at the top/left being selected
  *    - To decide which corner to drag, we consider:
  *        - Cursor position `(x, y)`
- *        - Image height `h`
- *        - `topBias`
+ *        - Image dimensions `w, h`
+ *        - `leftBias, topBias`
  *        - Corner positions
- *    - **The chosen corner is the closest to `(x, y - h*topBias)`**
+ *    - **The chosen corner is the closest to `(x - w*leftBias, y - h*topBias)`**
+ *    - Consider using a negative `leftBias` for left-handed mode
  */
 export function useCropper(src: string, config?: Config): Hook {
 
-  const { pads, contourOptions, cornerOptions, lazyCoords, topBias, startCoords, canvasOptions } = { ...defaultCfg, ...config }
+  const { pads, contourOptions, cornerOptions, lazyCoords, topBias, leftBias, startCoords, canvasOptions } = { ...defaultCfg, ...config }
   const { l, r, t, b } = pads
   const startCorners = asArray(startCoords ?? defaultCfg.startCoords)
   const [[tl, tr, br, bl], setCoords] = useState(startCorners)
@@ -115,6 +117,7 @@ export function useCropper(src: string, config?: Config): Hook {
     img.scaleToWidth((1 - l - r) * w);
     img.left = l * w;
     const imgH = height(img)
+    const imgW = width(img)
     img.top = t * imgH;
     canvas.setHeight(imgH * (1 + t + b));
     canvas.add(img);
@@ -157,7 +160,7 @@ export function useCropper(src: string, config?: Config): Hook {
       const { x, y } = e.pointer!
       const idx = argminBy(corners, c => {
         /** Bias towards selecting coords on top (as it's harder to access them in mobile) */
-        const loweredCoords = add(coordsOf(c), [0, topBias * imgH])
+        const loweredCoords = add(coordsOf(c), [leftBias * imgW, topBias * imgH])
         return dist(loweredCoords, [x, y])
       })
       movingCorner.current = idx
