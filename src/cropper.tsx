@@ -194,7 +194,8 @@ export function useCropper(src: string, config?: Config): Hook {
 
   function animate({ tl, tr, br, bl }: Partial<Corners>, config?: AnimationConfig) {
     const { promise, resolve } = managedPromise<void>();
-    [tl, tr, br, bl].forEach((v, i) => {
+    const corners = [tl, tr, br, bl]
+    corners.forEach((v, i) => {
       if (v && cornersRef.current && contourRef.current && imgRef.current && typeof canvas !== 'string') {
         const pos = rescale(v, imgRef.current)
         const c = cornersRef.current[i]
@@ -206,6 +207,8 @@ export function useCropper(src: string, config?: Config): Hook {
         })
       }
     })
+    if (corners.every(c => !c))
+      resolve();
     return promise
   }
 
