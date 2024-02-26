@@ -1,3 +1,6 @@
-dev
-Justfile
-media
+*
+!dist/**/*
+!src/**/*
+!README.md
+!package.json
+!tsconfig.json

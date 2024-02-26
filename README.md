@@ -33,3 +33,31 @@ async function runAnimation() {
   await animate({ tl: [0, 0], tr: [1, 0] })
 }
 ```
+
+## Hint/Animation
+
+Optionally, you can install [`framer-animations`](https://www.npmjs.com/package/framer-animations) to add this animation (useful as a simple guide for users)
+
+![User hint animation](media/cropper-hint.gif)
+
+```bash
+yarn add framer-animations
+```
+
+```jsx
+import { useCropper } from 'use-cropper'
+import { useCropperAnimation } from 'use-cropper/dist/animation'
+
+const { cropper, animate } = useCropper('/images/sheet0.jpg')
+const { Animation, run } = useCropperAnimation(animate)
+
+return (
+  ...
+  <div>
+    {cropper}
+    <Animation />
+  </div>
+  <button onClick={run}>Help</button>
+  ...
+)
+```
