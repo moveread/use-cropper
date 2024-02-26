@@ -1,0 +1,1 @@
+export { useCropper, type Config } from './cropper'
