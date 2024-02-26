@@ -2,7 +2,9 @@
 
 > Simple, mobile-friendly, animatable, customizable perspective cropper
 
-![Cropper in action](media/cropper.gif) ![Cropper animation](media/cropper-animation.gif)
+Mobile-friendly dragging            |  Programmatic animating
+:-------------------------:|:-------------------------:
+![Cropper in action](media/cropper.gif)  |  ![Cropper animation](media/cropper-animation.gif)
 
 ## Usage
 
