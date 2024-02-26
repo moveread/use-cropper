@@ -41,6 +41,10 @@ Optionally, you can install [`framer-animations`](https://www.npmjs.com/package/
 ![User hint animation](media/cropper-hint.gif)
 
 ```bash
+npm i framer-animations
+```
+
+```bash
 yarn add framer-animations
 ```
 
