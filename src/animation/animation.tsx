@@ -27,7 +27,8 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
     setModal(true)
   }
   async function runAnimation() {
-    const animate = await loaded.current.promise
+    const animate = await loaded.current.promise;
+    await animate({ tl: [0, 0], tr: [1, 0], br: [1, 1], bl: [0, 1] }, { duration: 0.1 })
     iconControls.stop()
     await Promise.all([
       iconControls.start({ x: '-10%', y: 0, scale: 0.7 }, { duration: 0.2 })
