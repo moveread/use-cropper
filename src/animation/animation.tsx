@@ -1,25 +1,35 @@
-import React, { lazy, memo } from 'react';
-import { type Hook as CropperHook } from '../cropper'
-import { useModal } from 'framer-animations'
+import React, { lazy, memo, useEffect, useRef, useState } from 'react';
+import { Animate, type Hook as CropperHook } from '../cropper'
+import { Modal, useModal } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
+import { managedPromise } from '../util/promise';
 const DragIcon = lazy(() => import('./DragIcon'))
 
 export type Config = {
   handIcon?: JSX.Element
 }
 export type Hook = {
-  Animation: typeof motion.div
+  animation: JSX.Element
   run(): Promise<void>
 }
 export function useCropperAnimation(animate: CropperHook['animate'], config?: Config): Hook {
-  const { Modal, animate: animateModal } = useModal({ opacity: 0.4 })
 
+  const [modal, setModal] = useState(false)
   const iconControls = useAnimation()
+  const loaded = useRef(managedPromise<Animate>())
+
+  useEffect(() => {
+    if (animate.loaded)
+      loaded.current.resolve(animate)
+  }, [animate.loaded])
 
   async function run() {
+    setModal(true)
+  }
+  async function runAnimation() {
+    const animate = await loaded.current.promise
     iconControls.stop()
     await Promise.all([
-      animateModal('show'),
       iconControls.start({ x: '-10%', y: 0, scale: 0.7 }, { duration: 0.2 })
     ]);
     await Promise.all([
@@ -33,16 +43,19 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
       iconControls.start({ x: '5%', y: '20%', scale: 0.7 }, { duration: 0.2 })
     ])
     await iconControls.start({ scale: 1 })
-    await Promise.all([
-      animateModal('hide'),
-      animate({ tl: [0, 0], tr: [1, 0] }, { duration: 200 }),
-    ])
+    await animate({ tl: [0, 0], tr: [1, 0] }, { duration: 200 }),
+    setModal(false)
   }
+
+  useEffect(() => {
+    if (modal)
+      runAnimation()
+  }, [modal])
 
   const icon = config?.handIcon ?? <DragIcon svg={{ width: '4rem', height: '4rem' }} path={{ fill: 'white' }} />
 
-  const Animation = memo((props: MotionProps) => (
-    <Modal {...props}>
+  const animation = (
+    <Modal show={modal}>
       <motion.div animate={iconControls} initial={{ x: 0, y: '20%', scale: 1 }} style={{
         width: '100%', height: '100%', display: 'flex',
         alignItems: 'center', justifyContent: 'center', fontSize: '4rem'
@@ -50,7 +63,7 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
         {icon}
       </motion.div>
     </Modal>
-  ))
+  )
 
-  return { Animation, run }
+  return { animation, run }
 }

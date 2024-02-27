@@ -2341,7 +2341,16 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-framer-motion@^11.0.6:
+framer-animations@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/framer-animations/-/framer-animations-1.2.14.tgz#11f39709db9655c9921f904cae1c4a2c8dee4aa5"
+  integrity sha512-ENI/Lxdw6XaKXeqjIKVp7LcwYL9KUfUjrBlc1VpvTO2MMUY3dn7tlcyAqIj+AXxGi6M6SxRYTjTWUGe9hs0DxA==
+  dependencies:
+    framer-motion "^11.0.5"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+
+framer-motion@^11.0.5, framer-motion@^11.0.6:
   version "11.0.6"
   resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.0.6.tgz#97c3076d9d718486eb533b58b88db800139d5fc3"
   integrity sha512-BpO3mWF8UwxzO3Ca5AmSkrg14QYTeJa9vKgoLOoBdBdTPj0e81i1dMwnX6EQJXRieUx20uiDBXq8bA6y7N6b8Q==
@@ -2978,6 +2987,14 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
+promised-react@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/promised-react/-/promised-react-1.0.1.tgz#bc2a20057e7ad5ccbf0f2a252554c4173d41c65a"
+  integrity sha512-QQXz79JoET9r/5zv0zQ+4cQHnXDmlovZ0M4eGt6+RWFcqdPdy5UUjiIkbjiE3PR3QCqNYAmXXBzlNu1LbKYU2g==
+  dependencies:
+    react "^18.2.0"
+    react-dom "^18.2.0"
+
 prop-types@^15.6.2:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
@@ -3455,10 +3472,10 @@ use-callback-ref@^1.3.0:
   dependencies:
     tslib "^2.0.0"
 
-use-cropper@^1.1.11:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/use-cropper/-/use-cropper-1.1.11.tgz#6e51aa81b07c47efe2b77dbb4ecea5baa27e42a4"
-  integrity sha512-QxdLxNHYiUCz2Zd9TetoKoUVtJT3tUUTTFWPs1E1W7k51u9XJEYnFJGJHpiN/PzbYLfjcOQgue2JozmLohM99w==
+use-cropper@^1.1.17:
+  version "1.1.17"
+  resolved "https://registry.yarnpkg.com/use-cropper/-/use-cropper-1.1.17.tgz#8802ab6926b923aff91a3ce02fd619ba68d31ab7"
+  integrity sha512-tOO4YsvXHfPU3HOvUJ+bWyBCUWDh/Io7WiWUiRo1sMy1A7By5j5VAW4NK4jpYT5AhYekOw5xz4s8x5AtVKN8lA==
   dependencies:
     react "^18.2.0"
     use-fabric "^1.1.0"

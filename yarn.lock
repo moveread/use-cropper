@@ -43,10 +43,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
 
-framer-animations@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/framer-animations/-/framer-animations-1.2.4.tgz#516b3e9368fda68028910d83503d306463853a35"
-  integrity sha512-6aYMVgejW1klLKNVtCcRFCwCr4PJizE6s4GZCakS6JIjTQVbZG7tgKKqh1DXDMFSGDlGT4q2R9MVQTrk3exOzg==
+framer-animations@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/framer-animations/-/framer-animations-1.2.14.tgz#11f39709db9655c9921f904cae1c4a2c8dee4aa5"
+  integrity sha512-ENI/Lxdw6XaKXeqjIKVp7LcwYL9KUfUjrBlc1VpvTO2MMUY3dn7tlcyAqIj+AXxGi6M6SxRYTjTWUGe9hs0DxA==
   dependencies:
     framer-motion "^11.0.5"
     react "^18.2.0"

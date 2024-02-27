@@ -35,11 +35,14 @@ export type Config = {
   contourOptions?: ContourOptions
   lazyCoords?: boolean
 }
+export type Animate = (to: Partial<Corners>, config?: AnimationConfig) => Promise<void>
 export type Hook = {
   cropper: JSX.Element
   coords: Corners
   getCoords(): Corners
-  animate(to: Partial<Corners>, config?: AnimationConfig): Promise<void>
+  animate: { loaded: false } | ({
+    loaded: true
+  } & Animate)
 }
 export type AnimationConfig = Omit<fabric.IAnimationOptions, 'onChange' | 'onComplete'>
 
@@ -113,6 +116,8 @@ export function useCropper(src: string, config?: Config): Hook {
     return { tl, tr, br, bl }
   }
 
+  const [loaded, setLoaded] = useState(false)
+
   const initSheet = useCallback((img: fabric.Image, canvas: fabric.Canvas, w: number, h: number) => {
     img.scaleToWidth((1 - l - r) * w);
     img.left = l * w;
@@ -181,6 +186,7 @@ export function useCropper(src: string, config?: Config): Hook {
       lastPtr.current = null
     })
     canvas.renderAll();
+    setLoaded(true)
   }, [])
 
   const init = useCallback((canvas: fabric.Canvas) => {
@@ -223,7 +229,7 @@ export function useCropper(src: string, config?: Config): Hook {
     }
   }, [init, canvas, started]);
 
-  return { cropper: Canvas, coords, getCoords, animate }
+  return { cropper: Canvas, coords, getCoords, animate: Object.assign(animate, {loaded}) }
 }
 
 export default useCropper
