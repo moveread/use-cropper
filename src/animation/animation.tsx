@@ -1,13 +1,16 @@
-import React, { lazy, memo, useEffect, useRef, useState } from 'react';
+import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { Animate, type Hook as CropperHook } from '../cropper'
-import { Modal, useModal } from 'framer-animations'
+import { Modal } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
 import { managedPromise } from '../util/promise';
 import { Props as ModalProps } from 'framer-animations/dist/modal/Modal';
-const DragIcon = lazy(() => import('./DragIcon'))
+import DragIcon, { Props as IconConfig } from './DragIcon';
 
-export type Config = {
+type ExplicitIcon = {
   handIcon?: JSX.Element
+}
+const isExplicit = (config?: ExplicitIcon | IconConfig): config is ExplicitIcon => (config as ExplicitIcon).handIcon !== undefined
+export type Config = (ExplicitIcon | IconConfig) & {
   modalProps?: Omit<ModalProps, 'show'>
   iconProps?: Omit<MotionProps, 'initial' | 'animate'>
 }
@@ -24,12 +27,11 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
   useEffect(() => {
     if (animate.loaded)
       loaded.current.resolve(animate)
-  }, [animate.loaded])
+  }, [animate])
 
-  function run() {
-    setModal(true)
-  }
-  async function runAnimation() {
+  const run = useCallback(() => setModal(true), [setModal])
+
+  const runAnimation = useCallback(async () => {
     const animate = await loaded.current.promise;
     await animate({ tl: [0, 0], tr: [1, 0], br: [1, 1], bl: [0, 1] }, { duration: 0.1 })
     iconControls.stop()
@@ -49,14 +51,16 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
     await iconControls.start({ scale: 1 })
     await animate({ tl: [0, 0], tr: [1, 0] }, { duration: 200 }),
     setModal(false)
-  }
+  }, [iconControls, setModal])
 
   useEffect(() => {
     if (modal)
       runAnimation()
-  }, [modal])
+  }, [modal, runAnimation])
 
-  const icon = config?.handIcon ?? <DragIcon svg={{ width: '4rem', height: '4rem' }} path={{ fill: 'white' }} />
+  const icon = isExplicit(config)
+    ? config.handIcon
+    : <DragIcon svg={{ width: '4rem', height: '4rem', ...config?.svg }} path={{ fill: 'white', ...config?.path }} />
   const { style, ...iconProps } = config?.iconProps ?? {}
 
   const animation = (

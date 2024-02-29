@@ -1,6 +1,6 @@
 import React, { SVGProps } from "react"
 
-type Props = {
+export type Props = {
   svg: SVGProps<SVGSVGElement>
   path: SVGProps<SVGPathElement>
 }
