@@ -3,14 +3,17 @@ import { Animate, type Hook as CropperHook } from '../cropper'
 import { Modal, useModal } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
 import { managedPromise } from '../util/promise';
+import { Props as ModalProps } from 'framer-animations/dist/modal/Modal';
 const DragIcon = lazy(() => import('./DragIcon'))
 
 export type Config = {
   handIcon?: JSX.Element
+  modalProps?: Omit<ModalProps, 'show'>
+  iconProps?: Omit<MotionProps, 'initial' | 'animate'>
 }
 export type Hook = {
   animation: JSX.Element
-  run(): Promise<void>
+  run(): void
 }
 export function useCropperAnimation(animate: CropperHook['animate'], config?: Config): Hook {
 
@@ -23,7 +26,7 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
       loaded.current.resolve(animate)
   }, [animate.loaded])
 
-  async function run() {
+  function run() {
     setModal(true)
   }
   async function runAnimation() {
@@ -54,13 +57,14 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
   }, [modal])
 
   const icon = config?.handIcon ?? <DragIcon svg={{ width: '4rem', height: '4rem' }} path={{ fill: 'white' }} />
+  const { style, ...iconProps } = config?.iconProps ?? {}
 
   const animation = (
-    <Modal show={modal}>
+    <Modal show={modal} {...config?.modalProps}>
       <motion.div animate={iconControls} initial={{ x: 0, y: '20%', scale: 1 }} style={{
-        width: '100%', height: '100%', display: 'flex',
-        alignItems: 'center', justifyContent: 'center', fontSize: '4rem'
-      }}>
+        width: '100%', height: '100%', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', fontSize: '4rem', ...style
+      }} {...iconProps}>
         {icon}
       </motion.div>
     </Modal>
