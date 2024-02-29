@@ -9,7 +9,7 @@ function App() {
   })
 
   return (
-    <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'gray'}}>
+    <div style={{height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'gray'}}>
       <div style={{ height: '100%', width: '40rem', position: 'relative'}}>
         {cropper}
         {animation}
