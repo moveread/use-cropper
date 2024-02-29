@@ -1,5 +1,5 @@
-import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
-import { Animate, type Hook as CropperHook } from '../cropper'
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Animate, Corners, type Hook as CropperHook } from '../cropper'
 import { Modal } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
 import { managedPromise } from '../util/promise';
@@ -12,7 +12,8 @@ type ExplicitIcon = {
 const isExplicit = (config?: ExplicitIcon | IconConfig): config is ExplicitIcon => (config as ExplicitIcon).handIcon !== undefined
 export type Config = (ExplicitIcon | IconConfig) & {
   modalProps?: Omit<ModalProps, 'show'>
-  iconProps?: Omit<MotionProps, 'initial' | 'animate'>
+  iconProps?: Omit<MotionProps, 'initial' | 'animate'>,
+  endCoords?: Corners
 }
 export type Hook = {
   animation: JSX.Element
@@ -49,9 +50,10 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
       iconControls.start({ x: '5%', y: '20%', scale: 0.7 }, { duration: 0.2 })
     ])
     await iconControls.start({ scale: 1 })
-    await animate({ tl: [0, 0], tr: [1, 0] }, { duration: 200 }),
+    const endCoords = config?.endCoords ?? { tl: [0, 0], tr: [1, 0] }
+    animate(endCoords, { duration: 200 }),
     setModal(false)
-  }, [iconControls, setModal])
+  }, [iconControls, setModal, config?.endCoords])
 
   useEffect(() => {
     if (modal)
