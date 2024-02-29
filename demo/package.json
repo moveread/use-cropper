@@ -13,9 +13,11 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "dependencies": {
+    "fabric": "^5.3.0",
+    "framer-animations": "^1.3.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "use-cropper": "^1.1.27"
+    "use-cropper": "^1.2.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

@@ -55,7 +55,7 @@ yarn add framer-animations
 import { useCropper } from 'use-cropper'
 import { useCropperAnimation } from 'use-cropper/dist/animation'
 
-const { cropper, animate } = useCropper('/images/sheet0.jpg')
+const { cropper, animate } = useCropper('/image.jpg')
 const { animation, run } = useCropperAnimation(animate)
 
 return (

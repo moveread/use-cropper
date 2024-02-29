@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { fabric } from 'fabric'
 import { useFabric, Config as CanvasOptions } from "use-fabric"
 import { clamped, coords as coordsOf, height, rescale, width } from "./util/coords"
@@ -55,8 +55,6 @@ export const defaultCfg: Required<Config> = {
   contourOptions: { stroke: 'white', strokeWidth: 2, fill: undefined }
 }
 
-const defaultCorners: Four<Vec2> = [[0, 0], [1, 0], [1, 1], [0, 1]]
-
 /**
  * Simple, mobile-friendly, customizable perspective cropper
  * 
@@ -101,7 +99,7 @@ export function useCropper(src: string, config?: Config): Hook {
     poly.setCoords()
   }
 
-  function computeCoords(): Four<Vec2> {
+  const computeCoords = useCallback((): Four<Vec2> => {
     const img = imgRef.current;
     return (img && cornersRef.current)
       ? cornersRef.current.map(p => {
@@ -110,15 +108,16 @@ export function useCropper(src: string, config?: Config): Hook {
         return [x, y] as Vec2;
       }) as Four<Vec2>
       : startCorners
-  }
-  function getCoords(): Corners {
+  }, [startCorners])
+
+  const getCoords = useCallback((): Corners => {
     const [tl, tr, br, bl] = computeCoords()
     return { tl, tr, br, bl }
-  }
+  }, [computeCoords])
 
   const [loaded, setLoaded] = useState(false)
 
-  const initSheet = useCallback((img: fabric.Image, canvas: fabric.Canvas, w: number, h: number) => {
+  const initSheet = useCallback((img: fabric.Image, canvas: fabric.Canvas, w: number) => {
     img.scaleToWidth((1 - l - r) * w);
     img.left = l * w;
     const imgH = height(img)
@@ -136,7 +135,7 @@ export function useCropper(src: string, config?: Config): Hook {
     polyline.bringToFront()
     contourRef.current = polyline
 
-    const corners: Four<fabric.Object> = rescaledPts.map((p, i) => {
+    const corners: Four<fabric.Object> = rescaledPts.map((p) => {
       const c = corner(p, cornerOptions)
       canvas.add(c)
       c.bringToFront()
@@ -187,11 +186,11 @@ export function useCropper(src: string, config?: Config): Hook {
     })
     canvas.renderAll();
     setLoaded(true)
-  }, [])
+  }, [b, l, r, t, computeCoords, contourOptions, cornerOptions, lazyCoords, leftBias, topBias, startCorners])
 
   const init = useCallback((canvas: fabric.Canvas) => {
     fabric.Image.fromURL(
-      src, img => initSheet(img, canvas, canvas.width!, canvas.height!),
+      src, img => initSheet(img, canvas, canvas.width!),
       { selectable: false, evented: false }
     )
   }, [initSheet, src])

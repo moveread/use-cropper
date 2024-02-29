@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Animate, Corners, type Hook as CropperHook } from '../cropper'
 import { Modal, useNotifiedState } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
@@ -9,7 +9,7 @@ import DragIcon, { Props as IconConfig } from './DragIcon';
 type ExplicitIcon = {
   handIcon?: JSX.Element
 }
-const isExplicit = (config?: ExplicitIcon | IconConfig): config is ExplicitIcon => (config as ExplicitIcon).handIcon !== undefined
+const isExplicit = (config?: ExplicitIcon | IconConfig): config is ExplicitIcon => (config as ExplicitIcon)?.handIcon !== undefined
 export type Config = (ExplicitIcon | IconConfig) & {
   modalProps?: Omit<ModalProps, 'show'>
   iconProps?: Omit<MotionProps, 'initial' | 'animate'>,
