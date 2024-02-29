@@ -109,7 +109,7 @@ export function useCropper(src: string, config?: Config): Hook {
         const y = (p.get("top")! - img.get("top")!) / height(img);
         return [x, y] as Vec2;
       }) as Four<Vec2>
-      : defaultCorners
+      : startCorners
   }
   function getCoords(): Corners {
     const [tl, tr, br, bl] = computeCoords()
