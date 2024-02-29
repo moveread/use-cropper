@@ -524,10 +524,10 @@ flatted@^3.2.9:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.3.1.tgz#21db470729a6734d4997002f439cb308987f567a"
   integrity sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==
 
-framer-animations@^1.2.14:
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/framer-animations/-/framer-animations-1.2.14.tgz#11f39709db9655c9921f904cae1c4a2c8dee4aa5"
-  integrity sha512-ENI/Lxdw6XaKXeqjIKVp7LcwYL9KUfUjrBlc1VpvTO2MMUY3dn7tlcyAqIj+AXxGi6M6SxRYTjTWUGe9hs0DxA==
+framer-animations@^1.3.9:
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/framer-animations/-/framer-animations-1.3.9.tgz#017197d6a09e6c0580c316c3b308fa071c3ddec7"
+  integrity sha512-/4feMEhe03EeckfuvIvAdfHNX6z4EzoekxlmRxzffs9LtyjM2Prn74dQnF1xzc2WtL2bj2bOkVeqlWU+0FjhmA==
   dependencies:
     framer-motion "^11.0.5"
     react "^18.2.0"

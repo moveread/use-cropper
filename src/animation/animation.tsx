@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Animate, Corners, type Hook as CropperHook } from '../cropper'
-import { Modal } from 'framer-animations'
+import { Modal, useNotifiedState } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
 import { managedPromise } from '../util/promise';
 import { Props as ModalProps } from 'framer-animations/dist/modal/Modal';
@@ -13,15 +13,14 @@ const isExplicit = (config?: ExplicitIcon | IconConfig): config is ExplicitIcon 
 export type Config = (ExplicitIcon | IconConfig) & {
   modalProps?: Omit<ModalProps, 'show'>
   iconProps?: Omit<MotionProps, 'initial' | 'animate'>,
-  endCoords?: Corners
 }
 export type Hook = {
   animation: JSX.Element
-  run(): void
+  run(endCoords?: Corners): void
 }
 export function useCropperAnimation(animate: CropperHook['animate'], config?: Config): Hook {
 
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useNotifiedState(false)
   const iconControls = useAnimation()
   const loaded = useRef(managedPromise<Animate>())
 
@@ -30,9 +29,8 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
       loaded.current.resolve(animate)
   }, [animate])
 
-  const run = useCallback(() => setModal(true), [setModal])
-
-  const runAnimation = useCallback(async () => {
+  const run = useCallback(async (endCoords?: Partial<Corners>) => {
+    await setModal(true);
     const animate = await loaded.current.promise;
     await animate({ tl: [0, 0], tr: [1, 0], br: [1, 1], bl: [0, 1] }, { duration: 0.1 })
     iconControls.stop()
@@ -50,15 +48,9 @@ export function useCropperAnimation(animate: CropperHook['animate'], config?: Co
       iconControls.start({ x: '5%', y: '20%', scale: 0.7 }, { duration: 0.2 })
     ])
     await iconControls.start({ scale: 1 })
-    const endCoords = config?.endCoords ?? { tl: [0, 0], tr: [1, 0] }
-    animate(endCoords, { duration: 200 }),
+    animate(endCoords ?? { tl: [0, 0], tr: [1, 0] }, { duration: 200 }),
     setModal(false)
-  }, [iconControls, setModal, config?.endCoords])
-
-  useEffect(() => {
-    if (modal)
-      runAnimation()
-  }, [modal, runAnimation])
+  }, [iconControls, setModal])
 
   const icon = isExplicit(config)
     ? config.handIcon
