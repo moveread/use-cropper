@@ -132,9 +132,9 @@ export function useCropper(src: string, config?: Config): Hook {
       // too tall
       img.scaleToHeight(maxH)
 
-    img.top = (h - height(img))*(t/(t+b))
-    img.left = (w - width(img))*(l/(l+r)) // equivalent to *0.5 when pads are equal on both sides
-    
+    img.top = t+b > 0 ? (h - height(img))*(t/(t+b)) : 0
+    img.left = l+r > 0 ? (w - width(img))*(l/(l+r)) : 0 // equivalent to *0.5 when pads are equal on both sides
+
     const imgH = height(img)
     const imgW = width(img)
     canvas.add(img);
