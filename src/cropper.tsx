@@ -123,8 +123,6 @@ export function useCropper(src: string, config?: Config): Hook {
     const maxW = (1 - l - r) * w
     const maxAspect = maxW / maxH
     const imgAspect = width(img) / height(img)
-    console.log('Canvas padded size', maxW, maxH, 'Aspect', maxAspect)
-    console.log('Image size', width(img), height(img), 'Aspect', imgAspect)
     if (imgAspect > maxAspect)
       // too wide
       img.scaleToWidth(maxW);
@@ -132,8 +130,10 @@ export function useCropper(src: string, config?: Config): Hook {
       // too tall
       img.scaleToHeight(maxH)
 
-    img.top = t+b > 0 ? (h - height(img))*(t/(t+b)) : 0
-    img.left = l+r > 0 ? (w - width(img))*(l/(l+r)) : 0 // equivalent to *0.5 when pads are equal on both sides
+    const topProp = t+b > 0 ? t/(t+b) : 0.5 // equivalent to *0.5 when pads are equal on both sides
+    const leftProp = l+r > 0 ? l/(l+r) : 0.5
+    img.top =  (h - height(img))*topProp
+    img.left = (w - width(img))*leftProp
 
     const imgH = height(img)
     const imgW = width(img)
