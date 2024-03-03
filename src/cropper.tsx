@@ -1,7 +1,7 @@
 import { RefCallback, useCallback, useEffect, useRef, useState } from "react"
 import { fabric } from 'fabric'
 import { useFabric } from "use-fabric"
-import { clamped, coords as coordsOf, height, rescale, width } from "./util/coords"
+import { clamped, coords as coordsOf, height, rescale, size, width } from "./util/coords"
 import { argminBy } from "./util/arrays"
 import { Vec2, add, dist, sub } from "./util/vectors"
 import { managedPromise } from "./util/promise"
@@ -117,13 +117,26 @@ export function useCropper(src: string, config?: Config): Hook {
 
   const [loaded, setLoaded] = useState(false)
 
-  const initSheet = useCallback((img: fabric.Image, canvas: fabric.Canvas, w: number) => {
-    img.scaleToWidth((1 - l - r) * w);
-    img.left = l * w;
+  const initSheet = useCallback((img: fabric.Image, canvas: fabric.Canvas) => {
+    const [w, h] = [canvas.width!, canvas.height!]
+    const maxH = (1 - t - b) * h
+    const maxW = (1 - l - r) * w
+    const maxAspect = maxW / maxH
+    const imgAspect = width(img) / height(img)
+    console.log('Canvas padded size', maxW, maxH, 'Aspect', maxAspect)
+    console.log('Image size', width(img), height(img), 'Aspect', imgAspect)
+    if (imgAspect > maxAspect)
+      // too wide
+      img.scaleToWidth(maxW);
+    else
+      // too tall
+      img.scaleToHeight(maxH)
+
+    img.top = (h - height(img))*(t/(t+b))
+    img.left = (w - width(img))*(l/(l+r)) // equivalent to *0.5 when pads are equal on both sides
+    
     const imgH = height(img)
     const imgW = width(img)
-    img.top = t * imgH;
-    canvas.setHeight(imgH * (1 + t + b));
     canvas.add(img);
     img.sendToBack();
     imgRef.current = img;
@@ -155,7 +168,7 @@ export function useCropper(src: string, config?: Config): Hook {
 
         canvas.renderAll()
         lastPtr.current = [x, y]
-        
+
         if (!lazyCoords)
           setCoords(computeCoords())
       }
@@ -190,7 +203,7 @@ export function useCropper(src: string, config?: Config): Hook {
 
   const init = useCallback((canvas: fabric.Canvas) => {
     fabric.Image.fromURL(
-      src, img => initSheet(img, canvas, canvas.width!),
+      src, img => initSheet(img, canvas),
       { selectable: false, evented: false }
     )
   }, [initSheet, src])
@@ -227,7 +240,7 @@ export function useCropper(src: string, config?: Config): Hook {
     }
   }, [init, canvas, started]);
 
-  return { ref, coords, getCoords, animate: loaded ? Object.assign(animate, {loaded}) : {loaded} }
+  return { ref, coords, getCoords, animate: loaded ? Object.assign(animate, { loaded }) : { loaded } }
 }
 
 export default useCropper
