@@ -1,6 +1,6 @@
 {
     "name": "use-cropper",
-    "version": "1.2.7",
+    "version": "1.2.8",
     "description": "Simple, mobile-friendly, amimatable, customizable perspective cropper",
     "main": "dist/index.js",
     "scripts": {
