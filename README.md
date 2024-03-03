@@ -6,18 +6,20 @@ Mobile-friendly dragging            |  Programmatic animating
 :-------------------------:|:-------------------------:
 ![Cropper in action](media/cropper.gif)  |  ![Cropper animation](media/cropper-animation.gif)
 
+- [Demo](https://moveread.github.io/use-cropper/)
+
 ## Usage
 
 ```jsx
 import { useCropper } from 'use-cropper'
 
-const { cropper, coords } = useCropper('/path/to/image.png')
+const { ref, coords } = useCropper('/path/to/image.png')
 // or, for slightly better performance:
-const { cropper, getCoords } = useCropper('/path/to/image.png', {lazyCoords: true})
+const { ref, getCoords } = useCropper('/path/to/image.png', {lazyCoords: true})
 
 return (
   <div>
-    {cropper}
+    <canvas style={{height: '100%', width: '100%' }} ref={ref} />
   </div>
 )
 ```
@@ -26,7 +28,7 @@ return (
 ```jsx
 import { fabric } from 'fabric' // optionally, for predefined easing functions
 
-const { cropper, animate } = useCropper('/path/to/image.png')
+const { ref, animate } = useCropper('/path/to/image.png')
 
 async function runAnimation() {
   if (!animate.loaded)
@@ -55,13 +57,13 @@ yarn add framer-animations
 import { useCropper } from 'use-cropper'
 import { useCropperAnimation } from 'use-cropper/dist/animation'
 
-const { cropper, animate } = useCropper('/image.jpg')
+const { ref, animate } = useCropper('/image.jpg')
 const { animation, run } = useCropperAnimation(animate)
 
 return (
   ...
-  <div>
-    {cropper}
+  <div style={{position: 'relative'}}>
+    <canvas style={{height: '100%', width: '100%' }} ref={ref} />
     {animation}
   </div>
   <button onClick={run}>Help</button>

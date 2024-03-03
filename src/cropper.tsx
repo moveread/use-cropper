@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { RefCallback, useCallback, useEffect, useRef, useState } from "react"
 import { fabric } from 'fabric'
-import { useFabric, Config as CanvasOptions } from "use-fabric"
+import { useFabric } from "use-fabric"
 import { clamped, coords as coordsOf, height, rescale, width } from "./util/coords"
 import { argminBy } from "./util/arrays"
 import { Vec2, add, dist, sub } from "./util/vectors"
@@ -30,14 +30,14 @@ export type Config = {
   topBias?: number
   leftBias?: number
   startCoords?: Corners
-  canvasOptions?: CanvasOptions
+  canvasOptions?: fabric.ICanvasOptions
   cornerOptions?: CornerOptions
   contourOptions?: ContourOptions
   lazyCoords?: boolean
 }
 export type Animate = (to: Partial<Corners>, config?: AnimationConfig) => Promise<void>
 export type Hook = {
-  cropper: JSX.Element
+  ref: RefCallback<HTMLCanvasElement>
   coords: Corners
   getCoords(): Corners
   animate: { loaded: false } | ({
@@ -85,7 +85,7 @@ export function useCropper(src: string, config?: Config): Hook {
   const [[tl, tr, br, bl], setCoords] = useState(startCorners)
   const coords: Corners = { tl, tr, br, bl }
 
-  const { Canvas, canvas } = useFabric(canvasOptions)
+  const { ref, canvas } = useFabric(canvasOptions)
   const imgRef = useRef<fabric.Image | null>(null)
   const cornersRef = useRef<Four<fabric.Object> | null>(null);
   const contourRef = useRef<fabric.Polygon | null>(null)
@@ -197,7 +197,9 @@ export function useCropper(src: string, config?: Config): Hook {
 
   const [started, setStarted] = useState(false);
 
-  function animate({ tl, tr, br, bl }: Partial<Corners>, config?: AnimationConfig) {
+  const animate = useCallback(({ tl, tr, br, bl }: Partial<Corners>, config?: AnimationConfig) => {
+    if (!canvas)
+      return Promise.resolve()
     const { promise, resolve } = managedPromise<void>();
     let someAnimated = false;
     [tl, tr, br, bl].forEach((v, i) => {
@@ -216,19 +218,16 @@ export function useCropper(src: string, config?: Config): Hook {
     if (!someAnimated)
       resolve()
     return promise
-  }
+  }, [canvas])
 
   useEffect(() => {
-    if (canvas === "error")
-      console.error("[react-mobile-perspective]: Loading Error")
-    else if (canvas !== "loading" && !started) {
-      console.debug('[CROPPER]: Loading canvas')
+    if (canvas && !started) {
       setStarted(true);
       init(canvas);
     }
   }, [init, canvas, started]);
 
-  return { cropper: Canvas, coords, getCoords, animate: Object.assign(animate, {loaded}) }
+  return { ref, coords, getCoords, animate: loaded ? Object.assign(animate, {loaded}) : {loaded} }
 }
 
 export default useCropper

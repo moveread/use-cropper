@@ -2203,18 +2203,18 @@ url-parse@^1.5.3:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-use-cropper@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/use-cropper/-/use-cropper-1.2.2.tgz#69a46ab3c9ffd1f666b35bb52c11644f5cf8ca30"
-  integrity sha512-kIe4zjsY5odrLJBKnicgmaYwZBfs1bjzdGx+jarEnBF02wPssNNf2DfFLV+WxvrG87DU2QHUAxeo/WGQ8yE0eA==
+use-cropper@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/use-cropper/-/use-cropper-1.2.3.tgz#4507b8958be5baead0af2f8324c73838db87be54"
+  integrity sha512-7QChv3miJeVhrmcBuvi7lZcHSSn0XCttxvcRISt20jHyKE2Za6Z1YegGrQxBkTPa4HdwifB6R607sJHlybUUqA==
   dependencies:
     react "^18.2.0"
-    use-fabric "^1.1.0"
+    use-fabric "^1.1.4"
 
-use-fabric@^1.1.0:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/use-fabric/-/use-fabric-1.1.2.tgz#e0cf77433ef6fe311fc6525173dd693ebd5090d1"
-  integrity sha512-22PsJWS5Kx33KeNLNkDIs3doUHFtfs/HIrHmMvpJy/DxsLwjy06/hzctoQEWKeW40uyKH+nGICK273dR1UNFtA==
+use-fabric@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/use-fabric/-/use-fabric-1.1.4.tgz#c951d621817ec9e5d05c0107d9fa869dd4cc7410"
+  integrity sha512-kstDwJjdVLaPE9DV01CoAjBhWNzj69R6Ctk3Vj7NArnRXOSwT1CVLAJuNUSwYEX1hjZIVcd95ByoHRQDryKr/w==
 
 util-deprecate@^1.0.1:
   version "1.0.2"

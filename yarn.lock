@@ -980,10 +980,10 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-use-fabric@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/use-fabric/-/use-fabric-1.1.0.tgz#83a3d973fa2ed2e5c56e38d5304cb5f9f84ffa54"
-  integrity sha512-w4yxrNCx8vIfByHeBpySUQHS2ctGnDMWNoy6qTwRnzEUUa2CgFU/vBfhHRpaKTQpSGlOOoVcfmqE9LtOxScLCQ==
+use-fabric@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/use-fabric/-/use-fabric-1.1.4.tgz#c951d621817ec9e5d05c0107d9fa869dd4cc7410"
+  integrity sha512-kstDwJjdVLaPE9DV01CoAjBhWNzj69R6Ctk3Vj7NArnRXOSwT1CVLAJuNUSwYEX1hjZIVcd95ByoHRQDryKr/w==
 
 which@^2.0.1:
   version "2.0.2"
