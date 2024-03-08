@@ -21,7 +21,9 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "use-cropper": ["/home/m4rs/mr-github/lib/js/ui/use-cropper/src"]
+      // "use-cropper": ["/home/m4rs/mr-github/lib/js/ui/use-cropper/src"],
+      // "opencv-tools/workers/correct": ["/home/m4rs/mr-github/lib/js/cv/opencv-tools/src/workers/correct"],
+      // "opencv-tools": ["/home/m4rs/mr-github/lib/js/cv/opencv-tools/src"]
     }
   },
   "include": ["src"],

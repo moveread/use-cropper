@@ -10,6 +10,8 @@ Mobile-friendly dragging            |  Programmatic animating
 
 ## Usage
 
+### UI
+
 ```jsx
 import { useCropper } from 'use-cropper'
 
@@ -24,7 +26,42 @@ return (
 )
 ```
 
-#### Animating
+### Correcting
+
+- `worker.ts`:
+
+  ```jsx
+  import cv from "opencv-ts"; // or importScripts to a custom opencv.js, or whatever
+  import { onMessage } from 'opencv-tools/workers/correct'
+  onmessage = onMessage(cv)
+  ```
+
+- `MyCropper.tsx`
+
+  ```jsx
+    import { prepareWorker } from 'opencv-tools/workers/correct'
+
+    const worker = new Worker('/path/to/worker.ts')
+    const api = prepareWorker(worker)
+
+    const img = '/image.jpg'
+
+    function MyCropper() {
+
+      const { ref, getCoords } = useCropper(img, {lazyCoords: true})
+
+        function initialize() {
+          api.postImg(img) // not necessary, but makes subsequent calls faster
+        }
+
+        async function correct() {
+          const blob = await api.correct(img, getCoords())
+          ...
+        }
+      }
+    ```
+
+### Animating
 ```jsx
 import { fabric } from 'fabric' // optionally, for predefined easing functions
 
@@ -39,7 +76,7 @@ async function runAnimation() {
 }
 ```
 
-## Hint/Animation
+### Hint/Animation
 
 Optionally, you can install [`framer-animations`](https://www.npmjs.com/package/framer-animations) to add this animation (useful as a simple guide for users)
 
@@ -55,7 +92,7 @@ yarn add framer-animations
 
 ```jsx
 import { useCropper } from 'use-cropper'
-import { useCropperAnimation } from 'use-cropper/dist/animation'
+import { useCropperAnimation } from 'use-cropper/animation'
 
 const { ref, animate } = useCropper('/image.jpg')
 const { animation, run } = useCropperAnimation(animate)
