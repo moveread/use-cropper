@@ -2237,10 +2237,10 @@ url-parse@^1.5.3:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-use-cropper@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/use-cropper/-/use-cropper-1.2.3.tgz#4507b8958be5baead0af2f8324c73838db87be54"
-  integrity sha512-7QChv3miJeVhrmcBuvi7lZcHSSn0XCttxvcRISt20jHyKE2Za6Z1YegGrQxBkTPa4HdwifB6R607sJHlybUUqA==
+use-cropper@1.2.11:
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/use-cropper/-/use-cropper-1.2.11.tgz#fc225179b3c8e42e460f614c04c6c8956ca46ae2"
+  integrity sha512-KpL747prFIDLV3Yg8Vxmduj3ZNx6vxTkqyHwX3xN2fy8RzVawKnCkUFBLHNw3yMTp4pz7onnSERXQjsO2ng0JA==
   dependencies:
     react "^18.2.0"
     use-fabric "^1.1.4"

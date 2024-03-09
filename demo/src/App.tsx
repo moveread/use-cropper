@@ -1,5 +1,5 @@
 import { useCropper } from "use-cropper"
-import { useCropperAnimation } from 'use-cropper/dist/animation'
+import { useCropperAnimation } from 'use-cropper/animation'
 import { prepareWorker } from 'opencv-tools/workers/correct'
 import { useEffect, useRef, useState } from "react"
 import { managedPromise } from "framer-animations/dist/util/promises"

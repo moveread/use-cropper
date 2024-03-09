@@ -1,10 +1,10 @@
 import { RefCallback, useCallback, useEffect, useRef, useState } from "react"
 import { fabric } from 'fabric'
 import { useFabric } from "use-fabric"
-import { clamped, coords as coordsOf, height, rescale, size, width } from "./util/coords"
-import { argminBy } from "./util/arrays"
-import { Vec2, add, dist, sub } from "./util/vectors"
-import { managedPromise } from "./util/promise"
+import { clamped, coords as coordsOf, height, rescale, width } from "./util/coords.js"
+import { argminBy } from "./util/arrays.js"
+import { Vec2, add, dist, sub } from "./util/vectors.js"
+import { managedPromise } from "./util/promise.js"
 
 export type CornerOptions = Omit<fabric.ICircleOptions, 'left' | 'top' | 'originX' | 'originY' | 'hasControls'> & {
   radius: number, selectedRadius: number

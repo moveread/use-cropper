@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Animate, Corners, type Hook as CropperHook } from '../cropper'
+import { Animate, Corners, type Hook as CropperHook } from '../cropper.js'
 import { Modal, useNotifiedState } from 'framer-animations'
 import { useAnimation, motion, type MotionProps } from 'framer-motion'
-import { managedPromise } from '../util/promise';
-import { Props as ModalProps } from 'framer-animations/dist/modal/Modal';
-import DragIcon, { Props as IconConfig } from './DragIcon';
+import { managedPromise } from '../util/promise.js';
+import { Props as ModalProps } from 'framer-animations/dist/modal/Modal.js';
+import DragIcon, { Props as IconConfig } from './DragIcon.js';
 
 type ExplicitIcon = {
   handIcon?: JSX.Element

@@ -1,1 +1,1 @@
-export { useCropperAnimation, type Config, type Hook } from './animation'
+export { useCropperAnimation, type Config, type Hook } from './animation.js'

@@ -1,1 +1,1 @@
-export { useCropper, type Config } from './cropper'
+export { useCropper, type Config } from './cropper.js'
